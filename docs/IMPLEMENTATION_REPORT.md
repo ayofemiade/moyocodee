@@ -7,7 +7,7 @@
 | Area | Change | Why |
 |---|---|---|
 | Checkpoint | Committed all prior work before starting | Concepts were lost once before |
-| Logo | `src/components/Logo.tsx`: vector redraw of the supplied render. Brushed or flat, plus a wordmark lock-up. Comparison page at `/concepts/logo` | The supplied file is a 3D render, unusable as a logo. **The redraw is a draft awaiting approval** |
+| Logo | `src/components/Logo.tsx`: vector redraw of the supplied render. Brushed or flat, plus a wordmark lock-up. Comparison page at `/concepts/logo` | The supplied file is a 3D render, unusable as a logo. **The redraw was approved by the founder on 15 Nov 2026** |
 | Brand angle | Both logo pieces measure about 45°, so all "cut" bars have 45° ends (`.cut-bar`) | One gesture across logo, strikes and the scroll line |
 | Type | Inter replaced by Schibsted Grotesk; Anton kept | Inter is the default SaaS font. Anton keeps continuity with the video series |
 | Colour | Muted and struck tokens replace opacity-based greys | Earlier greys failed contrast (2.57:1 and 3.44:1) |
@@ -54,7 +54,7 @@
 
 ## Remaining (needs founder input or later stages)
 
-1. Approve the logo redraw, or send the original vector.
+1. ~~Approve the logo redraw~~: approved on 15 Nov 2026.
 2. Confirm "What happens next": a 20–30 minute call, and a written cost and timeline.
 3. Contact details (email, WhatsApp) and where the form should deliver. The form is honest but not connected.
 4. Founder photo and background, for the founder section and About.

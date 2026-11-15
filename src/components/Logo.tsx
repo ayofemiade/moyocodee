@@ -1,8 +1,8 @@
 import { useId } from "react";
 
 /**
- * MoyoCode M, redrawn as a vector from the founder's 3D render (15 Nov 2026).
- * DRAFT: awaiting founder approval, or replacement with the original vector file.
+ * MoyoCode M, redrawn as a vector from the founder's 3D render.
+ * Approved by the founder on 15 Nov 2026 as the official mark.
  * Both pieces are cut at about 45°, which is the brand's "cut" angle.
  */
 export const LOGO_VIEWBOX = "150 10 295 277";
