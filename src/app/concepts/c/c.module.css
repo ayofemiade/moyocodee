@@ -1,0 +1,44 @@
+.page {
+  --ink: #0c0f14;
+  --line: rgba(217, 169, 63, 0.16);
+  --gold: #d9a93f;
+  --text: #e8e6e1;
+  background-color: var(--ink);
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 48px 48px;
+  background-position: -1px -1px;
+  color: var(--text);
+}
+
+.mono {
+  font-family: var(--font-mono-bp), ui-monospace, monospace;
+}
+
+.grotesk {
+  font-family: var(--font-grotesk), system-ui, sans-serif;
+  letter-spacing: -0.03em;
+}
+
+.cursor {
+  display: inline-block;
+  width: 0.55em;
+  height: 1.1em;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  background: var(--gold);
+  animation: blink 1s steps(1) infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor {
+    animation: none;
+  }
+}

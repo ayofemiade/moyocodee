@@ -1,0 +1,113 @@
+.page {
+  --ink: #0b0a08;
+  --paper: #15130f;
+  --ivory: #f3eee4;
+  --gold: #e9b949;
+  --muted: rgba(243, 238, 228, 0.66);
+  background:
+    radial-gradient(1200px 600px at 85% -10%, rgba(233, 185, 73, 0.1), transparent 60%),
+    var(--ink);
+  color: var(--ivory);
+}
+
+.display {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-variation-settings: "SOFT" 50, "opsz" 144;
+  letter-spacing: -0.02em;
+}
+
+.italicGold {
+  font-style: italic;
+  color: var(--gold);
+}
+
+/* Intake card: three cases cycle, each visible for a third of the loop. */
+.card {
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 39px,
+      rgba(243, 238, 228, 0.06) 39px,
+      rgba(243, 238, 228, 0.06) 40px
+    ),
+    var(--paper);
+  border: 1px solid rgba(233, 185, 73, 0.25);
+}
+
+.case {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  animation: cycle 12s infinite;
+}
+
+.case:nth-child(2) {
+  animation-delay: 4s;
+}
+
+.case:nth-child(3) {
+  animation-delay: 8s;
+}
+
+@keyframes cycle {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  6%,
+  30% {
+    opacity: 1;
+    transform: none;
+  }
+  36%,
+  100% {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+.strike {
+  background: linear-gradient(var(--gold), var(--gold)) no-repeat 0 55% / 0% 2px;
+  animation: strike 12s infinite;
+}
+
+.case:nth-child(2) .strike {
+  animation-delay: 4s;
+}
+
+.case:nth-child(3) .strike {
+  animation-delay: 8s;
+}
+
+@keyframes strike {
+  0%,
+  10% {
+    background-size: 0% 2px;
+  }
+  18%,
+  100% {
+    background-size: 100% 2px;
+  }
+}
+
+.tick {
+  border: 1.5px solid rgba(233, 185, 73, 0.6);
+  transition: background-color 200ms ease;
+}
+
+.row:hover .tick {
+  background: var(--gold);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case {
+    animation: none;
+  }
+  .case:first-child {
+    opacity: 1;
+  }
+  .strike {
+    background-size: 100% 2px;
+  }
+}
