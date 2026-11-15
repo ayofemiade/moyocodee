@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useRef } from "react";
 import { submitEnquiry, type EnquiryState } from "@/app/actions";
 import { usePains } from "@/components/home/PainContext";
 import { pains } from "@/content/home";
@@ -25,6 +25,13 @@ export function EnquiryForm({ button }: { button: string }) {
   const e = state.fieldErrors ?? {};
   const v = state.values ?? {};
   const ctx = usePains();
+  // Spam protection: stamp when the form appeared. The server rejects forms filled in under 3 seconds.
+  const loadedAt = useRef<HTMLInputElement>(null);
+  // Set once on mount. The input deliberately has no value prop: React re-applies that prop on
+  // every re-render (a hidden input's value follows it), which wiped the stamp whenever a chip was tapped.
+  useEffect(() => {
+    if (loadedAt.current) loadedAt.current.value = String(Date.now());
+  }, []);
   const pickedLabels = (ctx?.picked ?? []).map((id) => pains.find((p) => p.id === id)?.chip).filter(Boolean);
 
   if (state.status === "ok") {
@@ -135,6 +142,7 @@ export function EnquiryForm({ button }: { button: string }) {
         <label htmlFor="company_url">Leave this empty</label>
         <input id="company_url" name="company_url" tabIndex={-1} autoComplete="off" />
       </div>
+      <input ref={loadedAt} type="hidden" name="loaded_at" />
 
       <div>
         <label className="flex items-start gap-3 text-sm text-text/80">

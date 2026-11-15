@@ -1,5 +1,7 @@
 "use server";
 
+import { readMailConfig, sendMail } from "@/lib/mail";
+
 export type EnquiryState = {
   status: "idle" | "ok" | "error";
   message: string;
@@ -9,6 +11,8 @@ export type EnquiryState = {
 };
 
 const MAX = 4000;
+/** Forms submitted faster than this after the page loaded are almost certainly bots. */
+const MIN_FILL_MS = 3000;
 
 function text(form: FormData, key: string) {
   const v = form.get(key);
@@ -45,7 +49,7 @@ function emailBody(e: Enquiry) {
     ["Received", e.receivedAt],
   ];
   const text = rows.map(([k, v]) => `${k}: ${v}`).join("\n\n");
-  const html = `<h2 style="font-family:sans-serif">New enquiry from moyocode.com</h2>${rows
+  const html = `<h2 style="font-family:sans-serif">New enquiry from the MoyoCode website</h2>${rows
     .map(
       ([k, v]) =>
         `<p style="font-family:sans-serif;margin:0 0 14px"><strong>${escapeHtml(k)}</strong><br>${escapeHtml(v).replace(/\n/g, "<br>")}</p>`,
@@ -54,44 +58,21 @@ function emailBody(e: Enquiry) {
   return { text, html };
 }
 
-/** Email via Resend's API (no SDK needed). Keys come from server-only environment variables. */
-async function sendEmail(e: Enquiry, apiKey: string, to: string) {
-  const { text, html } = emailBody(e);
-  const res = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
-    body: JSON.stringify({
-      // Until moyocode.com is verified in Resend, only the shared test sender works,
-      // and it can only deliver to the Resend account's own email address.
-      from: process.env.CONTACT_FROM_EMAIL || "MoyoCode website <onboarding@resend.dev>",
-      to: [to],
-      subject: `New enquiry: ${e.name}${e.business ? ` (${e.business})` : ""}`.slice(0, 150),
-      text,
-      html,
-      // Reply goes straight to the visitor when they gave an email address.
-      ...(EMAIL_RE.test(e.contact) ? { reply_to: e.contact } : {}),
-    }),
-  });
-  if (!res.ok) throw new Error(`Resend responded ${res.status}: ${(await res.text()).slice(0, 300)}`);
-}
-
-async function postWebhook(e: Enquiry, url: string) {
-  const res = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(e),
-  });
-  if (!res.ok) throw new Error(`Webhook responded ${res.status}`);
-}
+const SILENT_OK: EnquiryState = { status: "ok", message: "Thanks. We'll be in touch." };
 
 /**
- * Delivers an enquiry by email (RESEND_API_KEY + CONTACT_TO_EMAIL) and/or to a webhook
- * (CONTACT_WEBHOOK_URL). With neither configured, the form says plainly that it isn't
- * connected, rather than pretending a message was delivered.
+ * Validates an enquiry and emails it from MoyoCode's own mailbox (see src/lib/mail.ts).
+ * With no mailbox configured, the form says plainly that it isn't connected,
+ * rather than pretending a message was delivered.
  */
 export async function submitEnquiry(_prev: EnquiryState, form: FormData): Promise<EnquiryState> {
-  // Honeypot: real people never see or fill this field.
-  if (text(form, "company_url")) return { status: "ok", message: "Thanks. We'll be in touch." };
+  // Spam protection, built in (no CAPTCHA service):
+  // 1. Honeypot: real people never see or fill this field.
+  if (text(form, "company_url")) return SILENT_OK;
+  // 2. Timing: the page stamps when it loaded. A form filled in under 3 seconds is a bot.
+  //    (No stamp at all is allowed, so the form still works with JavaScript off.)
+  const loadedAt = Number(text(form, "loaded_at"));
+  if (loadedAt && Date.now() - loadedAt < MIN_FILL_MS) return SILENT_OK;
 
   const enquiry: Enquiry = {
     name: text(form, "name"),
@@ -127,15 +108,8 @@ export async function submitEnquiry(_prev: EnquiryState, form: FormData): Promis
     return { status: "error", message: "A few details are missing.", fieldErrors, values };
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
-  const to = process.env.CONTACT_TO_EMAIL;
-  const webhook = process.env.CONTACT_WEBHOOK_URL;
-  const channels = [
-    ...(apiKey && to ? [() => sendEmail(enquiry, apiKey, to)] : []),
-    ...(webhook ? [() => postWebhook(enquiry, webhook)] : []),
-  ];
-
-  if (!channels.length) {
+  const mail = readMailConfig();
+  if (!mail) {
     return {
       status: "error",
       message: "This form isn't connected yet, so your message was not sent.",
@@ -143,10 +117,15 @@ export async function submitEnquiry(_prev: EnquiryState, form: FormData): Promis
     };
   }
 
-  // Succeed if at least one channel delivered; log any that failed.
-  const results = await Promise.allSettled(channels.map((send) => send()));
-  results.forEach((r) => r.status === "rejected" && console.error("Enquiry delivery failed", r.reason));
-  if (!results.some((r) => r.status === "fulfilled")) {
+  try {
+    await sendMail(mail, {
+      subject: `New enquiry: ${enquiry.name}${enquiry.business ? ` (${enquiry.business})` : ""}`,
+      ...emailBody(enquiry),
+      // Hitting Reply answers the visitor directly when they gave an email address.
+      replyTo: EMAIL_RE.test(enquiry.contact) ? enquiry.contact : undefined,
+    });
+  } catch (err) {
+    console.error("Enquiry delivery failed", err);
     return {
       status: "error",
       message: "Something went wrong sending your message. Please try again in a moment.",

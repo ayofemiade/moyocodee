@@ -56,7 +56,10 @@
 
 1. ~~Approve the logo redraw~~: approved on 15 Nov 2026.
 2. Confirm "What happens next": a 20–30 minute call, and a written cost and timeline.
-3. Form delivery: email via Resend is built and tested up to Resend's API (a deliberately fake key was rejected with 401, as expected). It goes live when the founder adds `RESEND_API_KEY` and `CONTACT_TO_EMAIL` to `.env.local` (see `.env.example`), and later to Vercel. Public email and WhatsApp details are still to come.
+3. Form delivery: **no third-party service.** The site emails each enquiry straight from MoyoCode's own mailbox over SMTP, using Nodemailer 10.3.1 (MIT-0, no dependencies) in `src/lib/mail.ts`. Spam protection is built in: a honeypot field and a 3-second minimum fill time, with no CAPTCHA service.
+    - **Tested end to end on 15 Nov 2026** against a local test mail server. The real submission arrived with the correct From, To and Reply-To, the picked problems and the message; typed HTML arrived escaped. A bot-speed submission was dropped.
+    - **Bug fixed during testing:** tapping a problem chip reset the timing stamp, which would have flagged real visitors as bots.
+    - **Goes live when** the founder puts the mailbox details in `.env.local` (see `.env.example`), and later in Vercel.
 4. Founder photo and background, for the founder section and About.
 5. Client permissions for case studies (Segun, Mrs Onyeje).
 6. Pages: About, How we work, Work, Contact, Privacy, and a styled 404.
