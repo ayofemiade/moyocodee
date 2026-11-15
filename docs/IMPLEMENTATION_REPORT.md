@@ -56,7 +56,7 @@
 
 1. ~~Approve the logo redraw~~: approved on 15 Nov 2026.
 2. Confirm "What happens next": a 20–30 minute call, and a written cost and timeline.
-3. Contact details (email, WhatsApp) and where the form should deliver. The form is honest but not connected.
+3. Form delivery: email via Resend is built and tested up to Resend's API (a deliberately fake key was rejected with 401, as expected). It goes live when the founder adds `RESEND_API_KEY` and `CONTACT_TO_EMAIL` to `.env.local` (see `.env.example`), and later to Vercel. Public email and WhatsApp details are still to come.
 4. Founder photo and background, for the founder section and About.
 5. Client permissions for case studies (Segun, Mrs Onyeje).
 6. Pages: About, How we work, Work, Contact, Privacy, and a styled 404.
