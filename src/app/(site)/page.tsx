@@ -17,6 +17,7 @@ const visuals = { websites: WebsiteVisual, software: SoftwareVisual, automation:
 
 const container = "mx-auto max-w-6xl px-4 sm:px-8";
 const kicker = "text-xs font-semibold uppercase tracking-[0.25em] text-gold";
+const kickerOnGold = "text-xs font-semibold uppercase tracking-[0.25em] text-ink/80";
 
 export default function Home() {
   return (
@@ -45,18 +46,18 @@ export default function Home() {
       </section>
 
       {/* Sound familiar? */}
-      <section className="section-pad border-t border-text/10" aria-labelledby="problems-title">
+      <section className="band-gold band-cut section-pad" aria-labelledby="problems-title">
         <div className={container}>
-          <p className={kicker}>Sound familiar?</p>
+          <p className={kickerOnGold}>Sound familiar?</p>
           <h2 id="problems-title" className="impact mt-3 max-w-3xl text-5xl sm:text-7xl">
-            Which of these is <span className="text-gold">you?</span>
+            Which of these is <span className="mark">you?</span>
           </h2>
           <PainBubbles />
         </div>
       </section>
 
       {/* Three ways: each service as its own row with its own illustration. */}
-      <section className="section-pad border-t border-text/10" aria-labelledby="ways-title">
+      <section className="section-pad" aria-labelledby="ways-title">
         <div className={container}>
           <p className={kicker}>The fix</p>
           <h2 id="ways-title" className="impact mt-3 text-5xl sm:text-7xl">
@@ -90,18 +91,18 @@ export default function Home() {
       </section>
 
       {/* How we work */}
-      <section id="how" className="section-pad scroll-mt-4 border-t border-text/10" aria-labelledby="how-title">
+      <section id="how" className="band-gold band-cut section-pad scroll-mt-4" aria-labelledby="how-title">
         <div className={container}>
-          <p className={kicker}>Process</p>
+          <p className={kickerOnGold}>Process</p>
           <h2 id="how-title" className="impact mt-3 text-5xl sm:text-7xl">
-            How we <span className="text-gold">work</span>
+            How we <span className="mark">work</span>
           </h2>
           <ProcessLine />
         </div>
       </section>
 
       {/* Founder: calm, plain, real. */}
-      <section className="section-pad border-t border-text/10" aria-labelledby="why-title">
+      <section className="section-pad" aria-labelledby="why-title">
         <div className={`${container} grid gap-10 lg:grid-cols-12`}>
           <div className="lg:col-span-5">
             <p className={kicker}>Why MoyoCode</p>
@@ -121,7 +122,7 @@ export default function Home() {
       </section>
 
       {/* Call to action */}
-      <section id="diagnosis" className="scroll-mt-4 bg-gold text-ink" aria-labelledby="cta-title">
+      <section id="diagnosis" className="band-gold band-cut scroll-mt-4" aria-labelledby="cta-title">
         <div className={`${container} section-pad grid gap-12 lg:grid-cols-12`}>
           <div className="lg:col-span-5">
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-ink/80">Free diagnosis</p>

@@ -59,6 +59,42 @@ body {
   padding-block: clamp(4rem, 10vw, 8rem);
 }
 
+/* Gold band: the site alternates black and gold sections (founder's direction, 15 Nov 2026).
+   Text on gold is ink; secondary text is ink at 80% (8.3:1), never lower than 75% (7.3:1). */
+.band-gold {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+/* The logo's 45° cut on the top-left and bottom-right corners of each gold band,
+   so the switch between black and gold reads as a designed edge, not a stripe. */
+.band-cut {
+  --cut: clamp(1.75rem, 4.5vw, 4rem);
+  clip-path: polygon(
+    var(--cut) 0,
+    100% 0,
+    100% calc(100% - var(--cut)),
+    calc(100% - var(--cut)) 100%,
+    0 100%,
+    0 var(--cut)
+  );
+}
+
+/* Accent on gold: gold can't highlight gold, so the word is set in a black block instead. */
+/* inline-block with line-height 1 keeps the block exactly one line tall, so it never
+   overlaps the line above when the heading wraps (seen on phones). */
+.mark {
+  display: inline-block;
+  background: var(--ink);
+  color: var(--gold);
+  line-height: 1;
+  padding: 0.04em 0.12em 0;
+}
+
+.impact:has(.mark) {
+  line-height: 1.06;
+}
+
 .skip-link {
   position: absolute;
   left: 1rem;

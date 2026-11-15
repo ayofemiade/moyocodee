@@ -18,7 +18,7 @@ export function PainBubbles() {
           return (
             <li
               key={p.id}
-              className={`${s.bubble} ${on ? s.bubbleOn : ""} flex flex-col gap-5 p-6 sm:p-7 ${
+              className={`${s.bubble} ${on ? s.bubbleOn : ""} flex flex-col gap-5 p-6 text-text sm:p-7 ${
                 i === pains.length - 1 && pains.length % 2 ? "md:col-span-2 md:w-1/2" : ""
               } ${i % 2 ? "md:translate-y-8" : ""}`}
             >
@@ -45,22 +45,22 @@ export function PainBubbles() {
 
       <div
         aria-live="polite"
-        className="mt-16 flex flex-col items-start justify-between gap-4 border-t border-text/10 pt-6 sm:flex-row sm:items-center"
+        className="mt-16 flex flex-col items-start justify-between gap-4 border-t-2 border-ink pt-6 sm:flex-row sm:items-center"
       >
         <p className="impact text-3xl sm:text-4xl">
           {n === 0 ? (
             <>
-              Every one of these <span className="text-gold">can be fixed.</span>
+              Every one of these <span className="mark">can be fixed.</span>
             </>
           ) : (
             <>
-              {n} {n === 1 ? "problem" : "problems"} picked. <span className="text-gold">All fixable.</span>
+              {n} {n === 1 ? "problem" : "problems"} picked. <span className="mark">All fixable.</span>
             </>
           )}
         </p>
         <a
           href="#diagnosis"
-          className="bg-gold px-6 py-3 font-semibold uppercase tracking-wide text-ink transition hover:bg-gold-hover"
+          className="bg-ink px-6 py-3 font-semibold uppercase tracking-wide text-gold transition hover:bg-raised"
         >
           {n === 0 ? "Tell us yours" : "Tell us about them"}
         </a>

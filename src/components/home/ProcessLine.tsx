@@ -61,21 +61,21 @@ export function ProcessLine() {
 
   return (
     <ol ref={root} className="relative mt-14 space-y-14 pl-12 sm:pl-20">
-      <span aria-hidden className="absolute bottom-2 left-[11px] top-2 w-0.5 bg-text/10 sm:left-[19px]" />
+      <span aria-hidden className="absolute bottom-2 left-[11px] top-2 w-0.5 bg-ink/15 sm:left-[19px]" />
       <span
         ref={fill}
         aria-hidden
-        className={`${s.processFill} absolute bottom-2 left-[11px] top-2 w-0.5 bg-gold sm:left-[19px]`}
+        className={`${s.processFill} absolute bottom-2 left-[11px] top-2 w-0.5 bg-ink sm:left-[19px]`}
       />
       {process.map((p, i) => (
         <li key={p.step} className="relative">
           <span
             aria-hidden
-            className={`${s.stepDot} absolute -left-12 top-2 h-6 w-6 rotate-45 border-2 border-text/30 bg-ink sm:-left-20 sm:h-10 sm:w-10`}
+            className={`${s.stepDot} absolute -left-12 top-2 h-6 w-6 rotate-45 border-2 border-ink/50 bg-gold sm:-left-20 sm:h-10 sm:w-10`}
           />
-          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-gold">Step 0{i + 1}</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-ink/80">Step 0{i + 1}</p>
           <h3 className="impact mt-2 text-5xl sm:text-7xl">{p.step}</h3>
-          <p className="mt-3 max-w-xl text-lg text-muted">{p.line}</p>
+          <p className="mt-3 max-w-xl text-lg text-ink/80">{p.line}</p>
         </li>
       ))}
     </ol>

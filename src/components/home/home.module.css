@@ -88,8 +88,11 @@
   transition: border-color 200ms ease;
 }
 
+/* Picked: an ink outline around the black card, visible against the gold band. */
 .bubbleOn {
   border-color: var(--gold);
+  outline: 3px solid var(--ink);
+  outline-offset: 5px;
 }
 
 .quote {
@@ -158,8 +161,8 @@
 }
 
 .stepActive .stepDot {
-  background: var(--gold);
-  border-color: var(--gold);
+  background: var(--ink);
+  border-color: var(--ink);
 }
 
 @media (prefers-reduced-motion: reduce) {
