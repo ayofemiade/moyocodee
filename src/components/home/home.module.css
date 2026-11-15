@@ -1,0 +1,180 @@
+/* Homepage pieces for The Cut. Every strike uses the logo's 45° end cuts (.cut-bar in globals). */
+
+/* --- Hero: three struck problems, cut one after another on load. Text is visible from the first paint. */
+.struckLine {
+  position: relative;
+  display: block;
+  width: fit-content;
+  line-height: 1.08;
+  color: var(--struck);
+}
+
+.struckBar {
+  position: absolute;
+  left: -0.15em;
+  right: -0.15em;
+  top: 50%;
+  transform-origin: left;
+  transform: scaleX(0);
+  animation: cut 450ms var(--ease-cut) forwards;
+}
+
+.struckLine:nth-child(1) .struckBar {
+  animation-delay: 150ms;
+}
+.struckLine:nth-child(2) .struckBar {
+  animation-delay: 400ms;
+}
+.struckLine:nth-child(3) .struckBar {
+  animation-delay: 650ms;
+}
+
+@keyframes cut {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Large faint mark behind the hero on wide screens. */
+.heroMark {
+  position: absolute;
+  right: -8%;
+  top: 6%;
+  height: 88%;
+  width: auto;
+  color: var(--gold);
+  opacity: 0.05;
+  pointer-events: none;
+}
+
+/* --- Chips: tap to cut. */
+.chip {
+  position: relative;
+  border: 1px solid rgba(245, 243, 238, 0.25);
+  border-radius: 999px;
+  padding: 0.6rem 1.1rem;
+  font-weight: 600;
+  transition:
+    border-color 150ms ease,
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+.chip:hover {
+  border-color: var(--gold);
+}
+
+.chipText {
+  background: linear-gradient(var(--gold), var(--gold)) no-repeat 0 55% / 0% 0.14em;
+  transition: background-size 350ms var(--ease-cut);
+}
+
+.chipOn {
+  border-color: var(--gold);
+  background: rgba(242, 193, 78, 0.1);
+  color: var(--text-muted);
+}
+
+.chipOn .chipText {
+  background-size: 100% 0.14em;
+}
+
+/* --- "Sound familiar?" bubbles. A neutral speech shape, not any app's UI. */
+.bubble {
+  position: relative;
+  border: 1px solid rgba(245, 243, 238, 0.14);
+  background: var(--ink-raised);
+  border-radius: 1.25rem 1.25rem 1.25rem 0.25rem;
+  transition: border-color 200ms ease;
+}
+
+.bubbleOn {
+  border-color: var(--gold);
+}
+
+.quote {
+  background: linear-gradient(var(--gold), var(--gold)) no-repeat 0 58% / 0% 0.1em;
+  transition: background-size 450ms var(--ease-cut);
+}
+
+.bubbleOn .quote {
+  background-size: 100% 0.1em;
+  color: var(--text-muted);
+}
+
+/* --- Automation illustration: steps tick in once the panel is on screen. */
+/* Starts at 0.7, not lower, so the text still passes contrast before it animates in. */
+.flowStep {
+  opacity: 0.7;
+  transform: translateX(-8px);
+  transition:
+    opacity 400ms ease,
+    transform 400ms var(--ease-cut);
+}
+
+.inView .flowStep {
+  opacity: 1;
+  transform: none;
+}
+
+.inView .flowStep:nth-child(2) {
+  transition-delay: 350ms;
+}
+.inView .flowStep:nth-child(3) {
+  transition-delay: 700ms;
+}
+.inView .flowStep:nth-child(4) {
+  transition-delay: 1050ms;
+}
+
+/* --- Website illustration: the call-to-action gets "clicked". */
+.press {
+  animation: press 2.8s ease-in-out infinite;
+}
+
+@keyframes press {
+  0%,
+  70%,
+  100% {
+    transform: none;
+    box-shadow: 0 0 0 0 rgba(242, 193, 78, 0.5);
+  }
+  78% {
+    transform: scale(0.96);
+    box-shadow: 0 0 0 10px rgba(242, 193, 78, 0);
+  }
+}
+
+/* --- Process: the gold line fills as you scroll (driven by GSAP). */
+.processFill {
+  transform-origin: top;
+  transform: scaleY(0);
+}
+
+.stepDot {
+  transition:
+    background-color 250ms ease,
+    border-color 250ms ease;
+}
+
+.stepActive .stepDot {
+  background: var(--gold);
+  border-color: var(--gold);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .struckBar {
+    animation: none;
+    transform: none;
+  }
+  .flowStep {
+    opacity: 1;
+    transform: none;
+  }
+  .press {
+    animation: none;
+  }
+  .processFill {
+    transform: none;
+  }
+}

@@ -28,6 +28,8 @@ export async function submitEnquiry(_prev: EnquiryState, form: FormData): Promis
     name: text(form, "name"),
     business: text(form, "business"),
     problem: text(form, "problem"),
+    // Problems the visitor ticked on the homepage (chips or "That's me").
+    picked: text(form, "picked"),
     tried: text(form, "tried"),
     contactMethod: text(form, "contactMethod"),
     contact: text(form, "contact"),
@@ -39,6 +41,7 @@ export async function submitEnquiry(_prev: EnquiryState, form: FormData): Promis
     name: enquiry.name,
     business: enquiry.business,
     problem: enquiry.problem,
+    picked: enquiry.picked,
     tried: enquiry.tried,
     contactMethod: enquiry.contactMethod,
     contact: enquiry.contact,
@@ -47,7 +50,8 @@ export async function submitEnquiry(_prev: EnquiryState, form: FormData): Promis
 
   const fieldErrors: EnquiryState["fieldErrors"] = {};
   if (!enquiry.name) fieldErrors.name = "Please tell us your name.";
-  if (enquiry.problem.length < 10) fieldErrors.problem = "Please describe the problem in a sentence or two.";
+  if (enquiry.problem.length < 10 && !enquiry.picked)
+    fieldErrors.problem = "Please describe the problem in a sentence or two, or pick one above.";
   if (!enquiry.contact) fieldErrors.contact = "Please tell us how to reach you.";
   if (!enquiry.consent) fieldErrors.consent = "Please confirm we can contact you about this enquiry.";
   if (Object.keys(fieldErrors).length) {

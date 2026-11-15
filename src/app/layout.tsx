@@ -1,19 +1,33 @@
-import type { Metadata } from "next";
-import { Anton, Inter } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Anton, Schibsted_Grotesk } from "next/font/google";
+import { site } from "@/content/site";
 import "./globals.css";
 
-// Crossed Out direction (chosen 15 Nov 2026): Anton for impact, Inter for reading.
+// The Cut (approved 15 Nov 2026): Anton for impact, Schibsted Grotesk for reading.
 const anton = Anton({ subsets: ["latin"], weight: "400", variable: "--font-anton" });
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+// display "optional" was tested on 15 Nov 2026 and did not move the lab LCP estimate, so the default (swap) stays.
+const schibsted = Schibsted_Grotesk({ subsets: ["latin"], variable: "--font-text" });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(site.url),
   title: {
-    default: "MoyoCode Technologies · Tell us the problem. We'll build what solves it.",
-    template: "%s · MoyoCode Technologies",
+    default: `${site.name} · Tell us the problem. We'll build what solves it.`,
+    template: `%s · ${site.name}`,
   },
-  description:
-    "MoyoCode is a problem-solving technology company. Websites that make you the obvious choice, software built around how you work, and automation that takes repeated tasks off your plate.",
+  description: site.description,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    siteName: site.name,
+    url: site.url,
+    title: `${site.name} · Tell us the problem. We'll build what solves it.`,
+    description: site.description,
+    locale: "en_GB",
+  },
+  twitter: { card: "summary_large_image" },
 };
+
+export const viewport: Viewport = { themeColor: "#050505", colorScheme: "dark" };
 
 export default function RootLayout({
   children,
@@ -21,7 +35,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${anton.variable} ${inter.variable}`}>
+    <html lang="en" className={`${anton.variable} ${schibsted.variable}`}>
       <body className="antialiased">{children}</body>
     </html>
   );

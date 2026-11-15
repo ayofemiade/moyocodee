@@ -1,11 +1,18 @@
 @import "tailwindcss";
 
-/* Crossed Out direction: black, warm white, one gold. */
+/* The Cut (approved 15 Nov 2026): black, warm white, one gold, one 45° cut.
+   Contrast on --ink: gold 12.1, text 18.4, muted 8.4, struck 5.8, error 9.5. */
 :root {
   --ink: #050505;
+  --ink-raised: #0f0f0f;
   --gold: #f2c14e;
   --gold-hover: #ffd774;
+  --gold-deep: #c9962f;
   --text: #f5f3ee;
+  --text-muted: #a8a6a0;
+  --struck: #8a8984;
+  --error: #f29a8a;
+  --ease-cut: cubic-bezier(0.7, 0, 0.2, 1);
 }
 
 @theme inline {
@@ -13,7 +20,11 @@
   --color-gold: var(--gold);
   --color-gold-hover: var(--gold-hover);
   --color-text: var(--text);
-  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --color-muted: var(--text-muted);
+  --color-raised: var(--ink-raised);
+  --color-struck: var(--struck);
+  --color-error: var(--error);
+  --font-sans: var(--font-text), system-ui, sans-serif;
   --font-display: var(--font-anton), Impact, sans-serif;
 }
 
@@ -33,6 +44,34 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.005em;
   line-height: 0.95;
+}
+
+/* The cut: a gold bar whose ends are sliced at the logo's 45° angle.
+   Height scales with the text it crosses. */
+.cut-bar {
+  display: block;
+  height: 0.12em;
+  background: var(--gold);
+  clip-path: polygon(0.12em 0, 100% 0, calc(100% - 0.12em) 100%, 0 100%);
+}
+
+.section-pad {
+  padding-block: clamp(4rem, 10vw, 8rem);
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 100;
+  background: var(--gold);
+  color: var(--ink);
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+}
+
+.skip-link:focus {
+  top: 1rem;
 }
 
 /* Used by concept C (Blueprint) on /concepts/c. */

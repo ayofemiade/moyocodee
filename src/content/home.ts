@@ -11,6 +11,51 @@ export const hero = {
   secondaryCta: "See how we work",
 };
 
+/**
+ * The five problems the site is built around. One list drives the hero chips,
+ * the "That's me" bubbles and the enquiry form, so a choice made anywhere carries through.
+ */
+export const pains = [
+  {
+    id: "website",
+    chip: "An outdated website",
+    quote: "Customers see a competitor's website and assume they're better.",
+    fix: "A website that makes you the obvious choice.",
+  },
+  {
+    id: "replies",
+    chip: "Slow replies to enquiries",
+    quote: "Enquiries come in, and nobody replies until the next day.",
+    fix: "Every enquiry answered, day or night.",
+  },
+  {
+    id: "manual",
+    chip: "Doing it all by hand",
+    quote: "My team does the same task by hand, every single day.",
+    fix: "Automation that takes the repeat work away.",
+  },
+  {
+    id: "scattered",
+    chip: "Scattered spreadsheets",
+    quote: "The business runs on spreadsheets and WhatsApp threads that don't talk to each other.",
+    fix: "One system that holds the business together.",
+  },
+  {
+    id: "chasing",
+    chip: "Chasing quotes and payments",
+    quote: "I send quotes and invoices, then spend days chasing them.",
+    fix: "Follow-ups that send themselves.",
+  },
+] as const;
+
+export type PainId = (typeof pains)[number]["id"];
+
+export const nextSteps = [
+  { step: "We read it", line: "A person reads every message and replies within one working day." },
+  { step: "A free call", line: "Twenty or thirty minutes about the problem, not about technology." },
+  { step: "A clear recommendation", line: "What we'd build, what it costs and how long it takes, in writing." },
+];
+
 export const problems = [
   "Customers see a competitor's website and assume they're better.",
   "Enquiries come in, and nobody replies until the next day.",

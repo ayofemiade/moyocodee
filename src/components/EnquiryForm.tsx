@@ -2,6 +2,8 @@
 
 import { useActionState } from "react";
 import { submitEnquiry, type EnquiryState } from "@/app/actions";
+import { usePains } from "@/components/home/PainContext";
+import { pains } from "@/content/home";
 
 const initial: EnquiryState = { status: "idle", message: "" };
 
@@ -12,7 +14,7 @@ const label = "text-xs font-semibold uppercase tracking-[0.15em] text-text/70";
 function Err({ msg, id }: { msg?: string; id: string }) {
   if (!msg) return null;
   return (
-    <p id={id} className="mt-2 text-sm text-[#f29a8a]">
+    <p id={id} className="mt-2 text-sm text-error">
       {msg}
     </p>
   );
@@ -22,6 +24,8 @@ export function EnquiryForm({ button }: { button: string }) {
   const [state, action, pending] = useActionState(submitEnquiry, initial);
   const e = state.fieldErrors ?? {};
   const v = state.values ?? {};
+  const ctx = usePains();
+  const pickedLabels = (ctx?.picked ?? []).map((id) => pains.find((p) => p.id === id)?.chip).filter(Boolean);
 
   if (state.status === "ok") {
     return (
@@ -59,9 +63,23 @@ export function EnquiryForm({ button }: { button: string }) {
         </div>
       </div>
 
+      {pickedLabels.length > 0 && (
+        <div>
+          <p className={label}>You picked</p>
+          <ul className="mt-2 flex flex-wrap gap-2">
+            {pickedLabels.map((l) => (
+              <li key={l} className="rounded-full border border-gold px-3 py-1 text-sm text-gold">
+                {l}
+              </li>
+            ))}
+          </ul>
+          <input type="hidden" name="picked" value={pickedLabels.join("; ")} />
+        </div>
+      )}
+
       <div>
         <label htmlFor="problem" className={label}>
-          What&apos;s slowing your business down?
+          {pickedLabels.length ? "Tell us a little more" : "What’s slowing your business down?"}
         </label>
         <textarea
           id="problem"
@@ -79,7 +97,7 @@ export function EnquiryForm({ button }: { button: string }) {
 
       <div>
         <label htmlFor="tried" className={label}>
-          What have you tried so far? <span className="normal-case tracking-normal text-text/40">(optional)</span>
+          What have you tried so far? <span className="normal-case tracking-normal text-muted">(optional)</span>
         </label>
         <textarea id="tried" name="tried" rows={2} defaultValue={v.tried} className={field} />
       </div>
@@ -135,7 +153,7 @@ export function EnquiryForm({ button }: { button: string }) {
       </div>
 
       {state.status === "error" && (
-        <p role="alert" className="border-l-2 border-[#f29a8a] pl-3 text-[#f29a8a]">
+        <p role="alert" className="border-l-2 border-error pl-3 text-error">
           {state.message}
         </p>
       )}
