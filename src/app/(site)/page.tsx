@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { EnquiryForm } from "@/components/EnquiryForm";
 import { Hero } from "@/components/home/Hero";
 import { PainLedger } from "@/components/home/PainLedger";
@@ -7,6 +8,8 @@ import { ProcessLine } from "@/components/home/ProcessLine";
 import { ServiceCut, type CutSlug } from "@/components/home/ServiceCuts";
 import { cta, founder, nextSteps, waysClose } from "@/content/home";
 import { services } from "@/content/services";
+import { site } from "@/content/site";
+import { JsonLd, pageMeta, webPageLd } from "@/lib/seo";
 
 /*
  * Two Sides of the Cut (direction chosen 16 Nov 2026, docs/NEW_CREATIVE_DIRECTION.md).
@@ -14,6 +17,13 @@ import { services } from "@/content/services";
  *   Hero (both) → Which of these is you? (black) → Three ways we fix it (gold)
  *   → How we work (black) → A letter (gold).
  */
+
+export const metadata: Metadata = pageMeta({
+  title: "Website Design, Custom Software & AI Automation | MoyoCode",
+  description: site.description,
+  path: "/",
+  absoluteTitle: true,
+});
 
 const container = "mx-auto max-w-6xl px-4 sm:px-8";
 const kicker = "text-xs font-semibold uppercase tracking-[0.25em]";
@@ -54,7 +64,7 @@ export default function Home() {
                     href={`/services/${svc.slug}`}
                     className="mt-7 inline-block border-b-2 border-ink pb-1 font-semibold uppercase tracking-wide transition hover:border-transparent"
                   >
-                    How it works →
+                    More on {svc.name.toLowerCase()} →
                   </Link>
                 </div>
                 <div className={`lg:col-span-7 ${i % 2 ? "lg:order-1 lg:col-start-1" : ""}`}>
@@ -116,6 +126,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <JsonLd data={webPageLd("WebPage", "/", "MoyoCode Technologies", site.description)} />
     </PainProvider>
   );
 }

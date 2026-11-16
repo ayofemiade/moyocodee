@@ -8,22 +8,16 @@ const anton = Anton({ subsets: ["latin"], weight: "400", variable: "--font-anton
 // display "optional" was tested on 15 Nov 2026 and did not move the lab LCP estimate, so the default (swap) stays.
 const schibsted = Schibsted_Grotesk({ subsets: ["latin"], variable: "--font-text" });
 
+// Defaults only. Every page sets its own title, description, canonical and og:url via pageMeta()
+// (src/lib/seo.tsx), so no page inherits the homepage's identity.
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} · Tell us the problem. We'll build what solves it.`,
-    template: `%s · ${site.name}`,
+    default: "MoyoCode Technologies",
+    template: "%s | MoyoCode",
   },
   description: site.description,
-  alternates: { canonical: "/" },
-  openGraph: {
-    type: "website",
-    siteName: site.name,
-    url: site.url,
-    title: `${site.name} · Tell us the problem. We'll build what solves it.`,
-    description: site.description,
-    locale: "en_GB",
-  },
+  openGraph: { type: "website", siteName: site.name, locale: "en_GB" },
   twitter: { card: "summary_large_image" },
 };
 

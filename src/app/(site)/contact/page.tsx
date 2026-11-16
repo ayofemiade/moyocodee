@@ -1,12 +1,17 @@
 import type { Metadata } from "next";
 import { EnquiryForm } from "@/components/EnquiryForm";
 import { cta, founder, nextSteps } from "@/content/home";
+import { JsonLd, pageMeta, webPageLd } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Tell us the problem",
-  description: cta.line,
-  alternates: { canonical: "/contact" },
-};
+const contactDescription =
+  "Tell MoyoCode the business problem. We reply within one working day with a free diagnosis: a website, custom software, automation, or none of them.";
+
+export const metadata: Metadata = pageMeta({
+  title: "Contact MoyoCode: Tell Us the Problem",
+  description: contactDescription,
+  path: "/contact",
+  absoluteTitle: true,
+});
 
 /*
  * Contact: a page you can link to directly (a bio link, an email signature).
@@ -45,6 +50,7 @@ export default function ContactPage() {
           <EnquiryForm button={cta.button} />
         </div>
       </div>
+      <JsonLd data={webPageLd("ContactPage", "/contact", "Contact MoyoCode", contactDescription)} />
     </section>
   );
 }

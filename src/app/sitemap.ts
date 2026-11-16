@@ -1,18 +1,20 @@
 import type { MetadataRoute } from "next";
-import { services } from "@/content/services";
+import { contentUpdated, services } from "@/content/services";
 import { site } from "@/content/site";
 
+// Only canonical, indexable URLs. lastModified is the date the page's content last changed,
+// not the build time (a build-time date tells search engines everything changes on every deploy).
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date();
+  const at = (path: string, lastModified: string, priority: number): MetadataRoute.Sitemap[number] => ({
+    url: path === "/" ? site.url : `${site.url}${path}`,
+    lastModified,
+    priority,
+  });
   return [
-    { url: site.url, lastModified: now, changeFrequency: "monthly", priority: 1 },
-    { url: `${site.url}/contact`, lastModified: now, changeFrequency: "yearly", priority: 0.7 },
-    { url: `${site.url}/privacy`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
-    ...services.map((s) => ({
-      url: `${site.url}/services/${s.slug}`,
-      lastModified: now,
-      changeFrequency: "monthly" as const,
-      priority: 0.8,
-    })),
+    at("/", contentUpdated, 1),
+    at("/services", contentUpdated, 0.8),
+    ...services.map((s) => at(`/services/${s.slug}`, contentUpdated, 0.9)),
+    at("/contact", contentUpdated, 0.7),
+    at("/privacy", "2026-11-16", 0.3),
   ];
 }

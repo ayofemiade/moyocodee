@@ -3,8 +3,9 @@ import { site } from "@/content/site";
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    // Design concepts are internal comparison pages, not part of the public site.
-    rules: [{ userAgent: "*", allow: "/", disallow: "/concepts" }],
+    // /concepts is noindex (concepts/layout.tsx). It is NOT disallowed here, because a disallow
+    // would stop search engines from seeing that noindex.
+    rules: [{ userAgent: "*", allow: "/" }],
     sitemap: `${site.url}/sitemap.xml`,
   };
 }

@@ -1,12 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { privacy } from "@/content/privacy";
+import { JsonLd, pageMeta, webPageLd } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Privacy notice",
-  description: "What personal information the MoyoCode website collects, why, and what you can ask us to do with it.",
-  alternates: { canonical: "/privacy" },
-};
+const privacyDescription =
+  "What personal information the MoyoCode website collects, why, and what you can ask us to do with it.";
+
+export const metadata: Metadata = pageMeta({
+  title: "Privacy Notice",
+  description: privacyDescription,
+  path: "/privacy",
+});
 
 /*
  * Privacy: a reading page, so calm and still. One trace of the brand's cut: what the site does
@@ -125,6 +129,7 @@ export default function PrivacyPage() {
         </h2>
         <p className="mt-3 text-muted">{privacy.changes}</p>
       </section>
+      <JsonLd data={webPageLd("WebPage", "/privacy", "Privacy notice", privacyDescription)} />
     </article>
   );
 }

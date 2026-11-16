@@ -95,9 +95,9 @@ function AutomationAfter() {
 }
 
 const cuts = {
-  websites: { label: "a dated website becoming a clear one", before: <WebsiteBefore />, after: <WebsiteAfter /> },
-  software: { label: "scattered spreadsheets becoming one system", before: <SoftwareBefore />, after: <SoftwareAfter /> },
-  automation: { label: "repeated tasks becoming automatic", before: <AutomationBefore />, after: <AutomationAfter /> },
+  "website-design": { label: "a dated website becoming a clear one", before: <WebsiteBefore />, after: <WebsiteAfter /> },
+  "custom-software": { label: "scattered spreadsheets becoming one system", before: <SoftwareBefore />, after: <SoftwareAfter /> },
+  "ai-automation": { label: "repeated tasks becoming automatic", before: <AutomationBefore />, after: <AutomationAfter /> },
 } as const;
 
 export type CutSlug = keyof typeof cuts;
