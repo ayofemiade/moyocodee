@@ -30,6 +30,9 @@
 
 html {
   scroll-behavior: smooth;
+  /* Sticky header height; anchors and focused elements land below it (WCAG 2.4.11). */
+  --header-h: 4.5rem;
+  scroll-padding-top: var(--header-h);
 }
 
 body {

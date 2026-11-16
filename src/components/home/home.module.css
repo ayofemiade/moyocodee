@@ -105,6 +105,45 @@
   color: var(--text-muted);
 }
 
+/* --- "Which of these is you?" ledger: picking a line cuts it (a gold bar with 45° ends,
+   drawn left to right) and reveals its fix underneath. */
+.ledgerQuote {
+  background-image: linear-gradient(var(--gold), var(--gold));
+  background-repeat: no-repeat;
+  background-position: 0 58%;
+  background-size: 0% 0.09em;
+  transition:
+    background-size 450ms var(--ease-cut),
+    color 200ms ease;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.ledgerOn .ledgerQuote {
+  background-size: 100% 0.09em;
+  color: var(--struck);
+}
+
+.ledgerFix {
+  display: none;
+}
+
+.ledgerOn .ledgerFix {
+  display: block;
+  animation: fixIn 350ms var(--ease-cut) both;
+}
+
+@keyframes fixIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+.ledgerRow:hover .ledgerQuote {
+  color: var(--text);
+}
+
 /* --- Automation illustration: steps tick in once the panel is on screen. */
 /* Starts at 0.7, not lower, so the text still passes contrast before it animates in. */
 .flowStep {
@@ -161,8 +200,8 @@
 }
 
 .stepActive .stepDot {
-  background: var(--ink);
-  border-color: var(--ink);
+  background: var(--gold);
+  border-color: var(--gold);
 }
 
 @media (prefers-reduced-motion: reduce) {

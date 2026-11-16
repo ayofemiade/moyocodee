@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useActionState, useEffect, useRef } from "react";
 import { submitEnquiry, type EnquiryState } from "@/app/actions";
 import { usePains } from "@/components/home/PainContext";
@@ -155,7 +156,19 @@ export function EnquiryForm({ button }: { button: string }) {
             aria-invalid={!!e.consent}
             aria-describedby={e.consent ? "consent-err" : undefined}
           />
-          I agree to be contacted about my enquiry.
+          <span>
+            I agree to be contacted about my enquiry. See the{" "}
+            {/* New tab, so reading it never wipes a half-written enquiry. */}
+            <Link
+              href="/privacy"
+              target="_blank"
+              rel="noopener"
+              className="underline underline-offset-2 hover:text-gold"
+            >
+              privacy notice<span className="sr-only"> (opens in a new tab)</span>
+            </Link>
+            .
+          </span>
         </label>
         <Err msg={e.consent} id="consent-err" />
       </div>

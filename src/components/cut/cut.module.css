@@ -1,0 +1,71 @@
+/*
+ * CutPanel: a before/after pair cut by the logo's 45° line.
+ * The "after" layer is clipped to x + y > k, with k = (1 − p) × (width + height) in the
+ * panel's own container units, so the line sweeps corner to corner as p goes 0 → 1.
+ */
+
+.panel {
+  position: relative;
+  container-type: size;
+  aspect-ratio: 4 / 3;
+  width: 100%;
+  overflow: hidden;
+  border: 2px solid var(--ink);
+  --k: calc((1 - var(--p, 1)) * (100cqw + 100cqh));
+}
+
+/* On the black problem side the panel's own black would vanish; give it a visible edge. */
+.onDark {
+  border-color: rgba(245, 243, 238, 0.28);
+}
+
+.before,
+.after {
+  position: absolute;
+  inset: 0;
+  padding: 6cqw;
+  display: flex;
+  flex-direction: column;
+}
+
+.before {
+  background: var(--ink);
+  color: var(--struck);
+}
+
+.after {
+  background: var(--text);
+  color: var(--ink);
+  clip-path: polygon(var(--k) 0, 300% 0, 300% 300%, 0 300%, 0 var(--k));
+}
+
+.blade {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 300%;
+  height: 2px;
+  background: var(--gold);
+  transform-origin: 0 0;
+  transform: translateY(var(--k)) rotate(-45deg);
+  pointer-events: none;
+}
+
+.tag {
+  position: absolute;
+  top: 3cqw;
+  font-size: max(10px, 2.4cqw);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.before .tag {
+  left: 3cqw;
+  color: var(--text-muted);
+}
+
+.after .tag {
+  right: 3cqw;
+  color: rgba(5, 5, 5, 0.8);
+}

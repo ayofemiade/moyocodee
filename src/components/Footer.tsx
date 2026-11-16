@@ -32,7 +32,7 @@ export function Footer() {
           <p className={heading}>Start here</p>
           <ul className="mt-4 space-y-2 text-muted">
             <li>
-              <Link href="/#diagnosis" className="transition hover:text-gold">
+              <Link href="/contact" className="transition hover:text-gold">
                 Get a free diagnosis
               </Link>
             </li>
@@ -58,7 +58,10 @@ export function Footer() {
         </div>
       </div>
       <p className="mx-auto max-w-6xl px-4 pb-8 text-xs text-muted sm:px-8">
-        © {new Date().getFullYear()} {site.name}
+        © {new Date().getFullYear()} {site.name} ·{" "}
+        <Link href="/privacy" className="underline underline-offset-4 transition hover:text-gold">
+          Privacy notice
+        </Link>
       </p>
     </footer>
   );

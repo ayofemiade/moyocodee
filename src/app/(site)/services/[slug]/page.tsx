@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ServiceCut, type CutSlug } from "@/components/home/ServiceCuts";
 import { getService, services } from "@/content/services";
 import s from "../../crossed.module.css";
 
@@ -118,18 +119,24 @@ export default async function ServicePage({ params }: Props) {
         <p className={`${kicker} text-gold`}>
           0{index} · {svc.label}
         </p>
-        <h1 className="impact mt-4 max-w-4xl text-[2.8rem] sm:text-7xl lg:text-[5.2rem]">{svc.headline}</h1>
+        <h1 className="impact mt-4 max-w-4xl text-[2.8rem] text-balance sm:text-7xl lg:text-[5.2rem]">{svc.headline}</h1>
 
-        <div className="mt-14 grid gap-px bg-text/10 md:grid-cols-2">
-          <div className="bg-ink p-6 sm:p-8">
-            <h2 className="impact text-3xl text-struck">
-              <span className={s.crossed}>The problem</span>
-            </h2>
-            <p className="mt-4 text-xl leading-snug text-muted">{svc.problem}</p>
+        {/* The page's idea: the cut on this one service, full size. Problem left of it, fix right. */}
+        <div className="mt-14 grid items-center gap-10 lg:grid-cols-12 lg:gap-14">
+          <div className="space-y-10 lg:col-span-5">
+            <div>
+              <h2 className="impact text-3xl text-struck">
+                <span className={s.crossed}>The problem</span>
+              </h2>
+              <p className="mt-4 text-xl leading-snug text-muted">{svc.problem}</p>
+            </div>
+            <div>
+              <h2 className="impact text-3xl text-gold">The fix</h2>
+              <p className="mt-4 text-xl leading-snug">{svc.whatWeDo}</p>
+            </div>
           </div>
-          <div className="bg-ink p-6 sm:p-8">
-            <h2 className="impact text-3xl text-gold">The fix</h2>
-            <p className="mt-4 text-xl leading-snug">{svc.whatWeDo}</p>
+          <div className="lg:col-span-7">
+            <ServiceCut slug={svc.slug as CutSlug} onDark />
           </div>
         </div>
       </section>

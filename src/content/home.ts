@@ -50,6 +50,22 @@ export const pains = [
 
 export type PainId = (typeof pains)[number]["id"];
 
+/**
+ * Hero illustration: the everyday mess of a struggling business (problem side) and the same
+ * item once fixed (fix side), at the same spot so the cut visibly "fixes" each one as it passes.
+ * ILLUSTRATIVE: generic situations, not a client and not a claim. Marked as such for screen readers.
+ * // pending: founder approval of these lines
+ */
+export const chaos = [
+  { problem: "Missed call (3)", fixed: "Every call answered" },
+  { problem: "Invoice 0047 · 21 days overdue", fixed: "Paid. The reminder sent itself." },
+  { problem: "Quote sent · no reply", fixed: "Follow-up sent on day 2" },
+  { problem: "orders_FINAL_v7.xlsx", fixed: "One system. One source of truth." },
+  { problem: "“Open today?” · unread", fixed: "Answered the same evening" },
+  { problem: "Website last updated 2019", fixed: "A website that wins the enquiry" },
+  { problem: "Copy. Paste. Repeat.", fixed: "Automated." },
+];
+
 export const nextSteps = [
   { step: "We read it", line: "A person reads every message and replies within one working day." },
   { step: "A free call", line: "Twenty or thirty minutes about the problem, not about technology." },

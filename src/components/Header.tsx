@@ -51,12 +51,13 @@ export function Header() {
   }, [open]);
 
   return (
-    <header className="relative z-40 mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-5 sm:px-8">
+    <header className="sticky top-0 z-40 bg-ink">
+      <div className="mx-auto flex h-[var(--header-h)] max-w-6xl items-center justify-between gap-4 px-4 sm:px-8">
       <Link href="/" aria-label="MoyoCode home">
         <Logo />
       </Link>
 
-      <nav aria-label="Main" className="hidden items-center gap-7 md:flex">
+      <nav aria-label="Main" className="hidden items-center gap-7 lg:flex">
         <ul className="flex items-center gap-6 text-sm font-medium text-muted">
           {links.map((l) => (
             <li key={l.href}>
@@ -77,7 +78,7 @@ export function Header() {
       <button
         ref={buttonRef}
         type="button"
-        className="flex h-11 items-center gap-2 px-1 text-sm font-semibold uppercase tracking-wider md:hidden"
+        className="flex h-11 items-center gap-2 px-1 text-sm font-semibold uppercase tracking-wider lg:hidden"
         aria-expanded={open}
         aria-controls="mobile-menu"
         onClick={() => setOpen((o) => !o)}
@@ -96,7 +97,7 @@ export function Header() {
           role="dialog"
           aria-modal="true"
           aria-label="Menu"
-          className="fixed inset-0 z-50 flex flex-col bg-ink px-4 pb-10 pt-5 md:hidden"
+          className="fixed inset-0 z-50 flex flex-col bg-ink px-4 pb-10 pt-5 lg:hidden"
         >
           <div className="flex items-center justify-between">
             <Logo />
@@ -129,6 +130,7 @@ export function Header() {
           </Link>
         </div>
       )}
+      </div>
     </header>
   );
 }

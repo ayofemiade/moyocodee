@@ -64,3 +64,65 @@
 5. Client permissions for case studies (Segun, Mrs Onyeje).
 6. Pages: About, How we work, Work, Contact, Privacy, and a styled 404.
 7. Deploy, then field LCP; domain connection; final QA, performance and SEO reports.
+
+---
+
+# Round 2: Two Sides of the Cut (16 Nov 2026)
+
+Branch `rethink`, **uncommitted**. Per the founder's standing rule, nothing is committed or pushed until they say "push". `main`, which is live, is untouched. The founder's brief of 16 Nov delegated the creative choice; the reasoning is in `NEW_CREATIVE_DIRECTION.md`.
+
+## The idea
+
+The logo's 45° cut becomes a **moving line**. Behind it, in black, is the visitor's problem. In front of it, in gold, is the fix. That gives the founder's black and gold alternation a meaning: black is always the problem side, gold is always the fix side.
+
+## What changed
+
+| Area | Change |
+|---|---|
+| Hero | Rebuilt as a pinned scene split by a 45° line. The problem side holds tilted, struck notes (illustrative, `// pending`). The fix side holds the promise. Scrolling moves the line until gold fills the screen, and each note it passes turns into its fixed version. The headline is split across the line, one sentence on each side |
+| Motion engine | `src/components/cut/ScrollScene.tsx`: one shared rAF over cached geometry, writing only changed `--p`, `--w` and `--h`. No library. The no-JS frame and the reduced-motion frame are server-rendered values |
+| Which of these is you? | A ruled ledger on black (it was rounded cards on gold). Picking a line cuts it through in gold and reveals its fix. Picks still feed the form |
+| Three ways we fix it | Grey wireframes replaced by **before/after panels** (`CutPanel`) that the line sweeps across as they scroll into view. Type-set illustrations, labelled "Illustration" |
+| How we work | Back on black. The heading is pinned beside the drawing line on desktop |
+| Letter | The founder's note and "What happens next" now open the form on gold |
+| Service pages | Each service's own before/after panel at full size beside its problem and fix |
+| New pages | `/contact` (the letter, linkable on its own) and a styled 404 (`// pending` copy) |
+| Header | Sticky, 72 px, solid black. The menu now starts below 1024 px, because nav links wrapped at 768 |
+| SEO | Canonicals, sitemap, OG and JSON-LD now use `https://www.moyocode.com`. The bare domain 308-redirects to www, so the old canonical pointed at a redirect |
+| Removed | HeroChips, PainBubbles, ServiceVisuals (git-staged deletions, not committed) |
+
+## Defects found in the browser, and fixed
+
+1. **Port collision:** 3125 was serving the Segun Michael site from another session. The first shots were discarded and QA moved to 3135.
+2. **Hero cut off at the bottom** at every size, because the stage was 100svh below the header. Fixed with the sticky header plus a stage of `100svh − header`, laid out in container units.
+3. **Notes sitting on the cut at rest** (half-cut text read as a glitch). Positions now keep about 300 px clear at 1265×598, 1440×900 and 1920×1080. Phones show two notes.
+4. **Tablet nav wrapping** at 768 px. The menu button now appears below 1024 px.
+5. **Panels invisible on black service pages.** Added a 28% white edge on dark.
+6. **Reduced motion pushed the hero down** by the header height (sticky `top` acting as a relative offset). Reset to 0.
+
+## Measured (16 Nov 2026, local production build)
+
+| Check | Result |
+|---|---|
+| Lighthouse desktop: home, service, contact | 100 / 100 / 100 / 100. LCP 0.5 s, TBT 0 ms, CLS 0 |
+| Lighthouse mobile (simulated slow 4G) | 96–97 / 100 / 100 / 100. LCP 2.6 s, TBT 60–90 ms (it was 270–360 ms), CLS 0 |
+| Phone layer memory, 390×844@3, 10 scroll stops | Peak 272 MB (the reference project's safe range was 300–700 MB) |
+| Horizontal overflow | None at 1265×598, 1440×900, 1920×1080, 768×1024, 390×844, 375×667 |
+| Console errors | None (the 404 page reports its own 404, as expected) |
+| No JS | The hero's first frame renders complete on laptop and phone |
+| Reduced motion | Hero rests composed; panels show "after" |
+| Scroll scene | `--p` tracks scroll exactly (0.33 → 0.329, 0.66 → 0.661, 1 → 1.000). Panels cut mid-screen at p ≈ 0.45 |
+
+**Not tested:** a physical iPhone or Android (emulation only), keyboard tabbing through every control (the skip link, focus ring and scroll-padding are in place, but no full tab pass was recorded), and field Core Web Vitals.
+
+## Open items (founder)
+
+1. Approve the illustrative hero notes and the 404 copy (`// pending`).
+2. Real photos of the founder, for About and the letter.
+3. Client permission and assets for Work and case studies. The pages wait until then.
+4. ~~Privacy notice~~: built at `/privacy` on 16 Nov 2026 from an audit of the site.
+    - **What the audit found:** no cookies, analytics, ads or third-party requests. The only personal data is the form. It goes to the Gmail mailbox, and Vercel hosts the site.
+    - **Where it's linked:** the footer, the form's consent line (opens in a new tab so a half-written enquiry is never lost), and the sitemap.
+    - **Checks:** Lighthouse gave 90 / 100 / 100 / 100. No overflow at laptop or phone size.
+    - **Founder decisions:** the 24-month retention period and the 30-day response commitment were approved on 16 Nov 2026. This is not legal advice; the founder should review it.
+5. Say **"push"** to commit `rethink` and deploy.

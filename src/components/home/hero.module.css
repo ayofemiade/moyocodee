@@ -1,0 +1,181 @@
+/*
+ * Hero: two sides of the cut.
+ * The fix layer (gold) is clipped to the half-plane x + y > k: a 45° line, the logo's angle.
+ * k comes from the composition at rest (--k0) and shrinks to 0 as you scroll (--p 0 → 1),
+ * so gold takes the whole screen. Everything is laid out in vw/svh so the CSS first frame,
+ * the no-JS frame and the scrubbed frames always agree.
+ */
+
+.scene {
+  /* 70svh of scroll drives the cut; the stage stays pinned under the sticky header meanwhile. */
+  height: calc(170svh - var(--header-h));
+  position: relative;
+}
+
+.stage {
+  position: sticky;
+  top: var(--header-h);
+  height: calc(100svh - var(--header-h));
+  overflow: hidden;
+  /* Everything below is measured in the stage's own units (cqw/cqh), so the composition and
+     the cut stay in proportion at every screen size. */
+  container-type: size;
+  /* Rest position of the cut, between the two halves of the headline (see the comp maths in
+     NEW_CREATIVE_DIRECTION / IMPLEMENTATION_REPORT). Landscape default. */
+  --k0: calc(46cqw + 46cqh);
+  --k: calc(var(--k0) * (1 - var(--p, 0)));
+  --display: min(7cqw, 13cqh);
+}
+
+.layer {
+  position: absolute;
+  inset: 0;
+}
+
+.problem {
+  background: var(--ink);
+  color: var(--text);
+}
+
+.fix {
+  background: var(--gold);
+  color: var(--ink);
+  clip-path: polygon(var(--k) 0, 300vmax 0, 300vmax 300vmax, 0 300vmax, 0 var(--k));
+}
+
+/* The blade: a hairline drawn exactly on the cut so the edge reads as a deliberate line. */
+.blade {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 300vmax;
+  height: 2px;
+  background: var(--text);
+  transform-origin: 0 0;
+  /* Starts at (0, k) and rises at 45° to the right. */
+  transform: translateY(var(--k)) rotate(-45deg);
+  opacity: calc(1 - var(--p, 0) * 1.4);
+  pointer-events: none;
+}
+
+/* ---- Headline: one sentence on each side of the cut. */
+.lineOne,
+.lineTwo {
+  position: absolute;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-size: var(--display);
+  line-height: 0.95;
+  letter-spacing: 0.005em;
+  margin: 0;
+}
+
+.lineOne {
+  left: 4cqw;
+  top: 9cqh;
+}
+
+.lineTwo {
+  right: 4cqw;
+  top: 47cqh;
+  text-align: right;
+}
+
+/* On the problem side the first sentence is white; the fix side repeats it in ink at the same
+   spot, so as the cut passes, the line turns from problem to fixed. */
+.ghost {
+  visibility: hidden;
+}
+
+.intro {
+  position: absolute;
+  right: 4cqw;
+  bottom: 7cqh;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem 1.5rem;
+  text-align: right;
+}
+
+.intro p {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: rgba(5, 5, 5, 0.8);
+}
+
+/* ---- Fragments: problem versions are tilted, dim and struck; fixed versions sit square. */
+.frag {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+  padding: 0.5rem 0.8rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.problem .frag {
+  border: 1px solid rgba(245, 243, 238, 0.18);
+  background: var(--ink-raised);
+  color: var(--struck);
+  transform: rotate(var(--r));
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+}
+
+.fix .frag {
+  border: 1.5px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+}
+
+.fix .frag::before {
+  content: "";
+  width: 0.55rem;
+  height: 0.55rem;
+  background: var(--ink);
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+}
+
+/* Fragment positions (landscape). All sit on the problem side at rest (x + y < k0). */
+/* Problem-side notes keep >= ~300px clear of the cut at rest; fix-side ones sit well inside gold.
+   Checked at 1265x598, 1440x900, 1920x1080. */
+.f0 { left: 42cqw; top: 6cqh;  --r: -4deg; }
+.f1 { left: 72cqw; top: 22cqh; --r: 0deg; }
+.f2 { left: 26cqw; top: 42cqh; --r: 2deg; }
+.f3 { left: 4cqw;  top: 46cqh; --r: -3deg; }
+.f4 { left: 16cqw; top: 60cqh; --r: 4deg; }
+.f5 { left: 5cqw;  top: 74cqh; --r: 2deg; }
+.f6 { left: 80cqw; top: 7cqh;  --r: 0deg; }
+
+/* ---- Portrait phones and tablets: problem above, fix below, same 45° cut. */
+@media (orientation: portrait) {
+  .stage {
+    --k0: calc(62cqw + 30cqh);
+    --display: min(12.5cqw, 8.5cqh);
+  }
+  .lineOne { top: 8cqh; }
+  .lineTwo { top: 56cqh; }
+  .intro {
+    left: 4cqw;
+    right: 4cqw;
+    bottom: 6cqh;
+    flex-wrap: wrap;
+  }
+  .intro p { font-size: 1rem; }
+  .frag { font-size: 0.78rem; padding: 0.4rem 0.6rem; }
+  .f0 { left: 52cqw; top: 2.5cqh; }
+  .f2 { left: 4cqw;  top: 30cqh; }
+  /* Only two notes fit clear of the cut on a phone. */
+  .f1, .f3, .f4, .f5, .f6 { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Fixed state, no scrub: the scene collapses to one screen. */
+  .scene { height: auto; }
+  /* top must reset too: on a relative element it would push the stage down by the header height. */
+  .stage { position: relative; top: 0; }
+}
