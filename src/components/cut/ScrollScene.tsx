@@ -14,7 +14,8 @@ import { useEffect, useRef } from "react";
  * - Without JS the server-rendered `initial` value is the first frame, so nothing is hidden.
  */
 
-type Mode = "pin" | "pass";
+// Before/after panels used to scroll-link here ("pass"); they now play on a timer (CutPlay).
+type Mode = "pin";
 
 type Scene = {
   el: HTMLElement;
@@ -45,17 +46,9 @@ function frame() {
   raf = 0;
   const y = window.scrollY;
   scenes.forEach((s) => {
-    let p: number;
-    if (s.mode === "pin") {
-      // Sticky stage: 0 when the scene's top reaches the top, 1 when its bottom leaves.
-      const run = Math.max(1, s.height - vh);
-      p = (y - s.top) / run;
-    } else {
-      // Passing panel: the cut runs while the panel travels from 85% to 30% of the screen.
-      const start = s.top - vh * 0.85;
-      const end = s.top - vh * 0.3;
-      p = (y - start) / Math.max(1, end - start);
-    }
+    // Sticky stage: 0 when the scene's top reaches the top, 1 when its bottom leaves.
+    const run = Math.max(1, s.height - vh);
+    let p = (y - s.top) / run;
     p = Math.min(1, Math.max(0, p));
     const v = p.toFixed(3);
     if (v !== s.last) {
@@ -86,7 +79,7 @@ function listen() {
 
 export function ScrollScene({
   as: Tag = "div",
-  mode = "pass",
+  mode = "pin",
   initial,
   reducedTo = 1,
   className,

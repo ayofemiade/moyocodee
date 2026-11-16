@@ -1,8 +1,8 @@
-import { ScrollScene } from "./ScrollScene";
+import { CutPlay } from "./CutPlay";
 import s from "./cut.module.css";
 
 /**
- * Before / after, cut at 45° as the panel scrolls into view.
+ * Before / after, cut at 45° once the panel is on screen (timed, see CutPlay).
  * No JS and reduced motion both show the finished "after" state.
  */
 export function CutPanel({
@@ -20,7 +20,7 @@ export function CutPanel({
 }) {
   return (
     <figure className="w-full">
-      <ScrollScene mode="pass" initial={1} reducedTo={1} className={`${s.panel} ${onDark ? s.onDark : ""}`} aria-hidden>
+      <CutPlay className={`${s.panel} ${onDark ? s.onDark : ""}`}>
         <div className={s.before}>
           <span className={s.tag}>Before</span>
           {before}
@@ -30,7 +30,7 @@ export function CutPanel({
           {after}
         </div>
         <span className={s.blade} />
-      </ScrollScene>
+      </CutPlay>
       <figcaption
         className={`mt-3 text-xs font-semibold uppercase tracking-[0.2em] ${onDark ? "text-muted" : "text-ink/80"}`}
       >

@@ -176,6 +176,10 @@ body {
   html {
     scroll-behavior: auto;
   }
+  /* Before/after panels skip the timed cut and show the fix (CutPlay). */
+  [data-cut] {
+    --p: 1 !important;
+  }
   *,
   *::before,
   *::after {

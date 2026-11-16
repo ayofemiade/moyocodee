@@ -30,7 +30,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${anton.variable} ${schibsted.variable}`}>
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        {/* Without JS the before/after panels can't play, so show the fix (CutPlay). */}
+        <noscript dangerouslySetInnerHTML={{ __html: "<style>[data-cut]{--p:1!important}</style>" }} />
+        {children}
+      </body>
     </html>
   );
 }
