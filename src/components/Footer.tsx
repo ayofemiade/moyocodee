@@ -32,6 +32,11 @@ export function Footer() {
           <p className={heading}>Start here</p>
           <ul className="mt-4 space-y-2 text-muted">
             <li>
+              <Link href="/work" className="transition hover:text-gold">
+                Our work
+              </Link>
+            </li>
+            <li>
               <Link href="/contact" className="transition hover:text-gold">
                 Get a free diagnosis
               </Link>

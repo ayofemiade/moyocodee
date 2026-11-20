@@ -7,6 +7,7 @@ import { services } from "@/content/services";
 
 const links = [
   ...services.map((s) => ({ href: `/services/${s.slug}`, label: s.label })),
+  { href: "/work", label: "Work" },
   { href: "/#how", label: "How we work" },
 ];
 

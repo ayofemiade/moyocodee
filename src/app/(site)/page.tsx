@@ -6,6 +6,7 @@ import { PainLedger } from "@/components/home/PainLedger";
 import { PainProvider } from "@/components/home/PainContext";
 import { ProcessLine } from "@/components/home/ProcessLine";
 import { ServiceCut, type CutSlug } from "@/components/home/ServiceCuts";
+import { WorkStrip } from "@/components/work/WorkStrip";
 import { cta, founder, nextSteps, waysClose } from "@/content/home";
 import { services } from "@/content/services";
 import { site } from "@/content/site";
@@ -73,6 +74,7 @@ export default function Home() {
               </article>
             ))}
           </div>
+          <WorkStrip />
           <p className="impact mt-24 text-3xl sm:text-4xl">{waysClose}</p>
         </div>
       </section>

@@ -14,6 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     at("/", contentUpdated, 1),
     at("/services", contentUpdated, 0.8),
     ...services.map((s) => at(`/services/${s.slug}`, contentUpdated, 0.9)),
+    at("/work", "2026-11-20", 0.8),
     at("/contact", contentUpdated, 0.7),
     at("/privacy", "2026-11-16", 0.3),
   ];
